@@ -10,15 +10,33 @@ class Parser {
         const javaBuildDateRegex = /-(20[0-9][0-9][0-9][0-9][0-9][0-9])/;
         let curRegexResult = null;
         let javaVersion, jdkDate;
+
         if ( ( curRegexResult = javaVersionRegex.exec( output ) ) !== null ) {
             javaVersion = curRegexResult[1];
         }
         curRegexResult = null;
         // parse jdk date from javaVersion
         if ( ( curRegexResult = javaBuildDateRegex.exec( javaVersion ) ) !== null ) {
-                jdkDate = curRegexResult[1];
+            jdkDate = curRegexResult[1];
         }
         return { javaVersion, jdkDate };
+    }
+
+    exactNodeVersion(output) {
+        const nodejsVersionRegex = /(Node Version[\s\S]*Rundate.*)/;
+        const nodeRunDateRegex = /-(20[0-9][0-9][0-9][0-9][0-9][0-9])/;
+        let curRegexResult = null;
+        let nodeVersion, nodeRunDate;
+
+        if ( ( curRegexResult = nodejsVersionRegex.exec( output ) ) !== null ) {
+            nodeVersion = curRegexResult[1];
+        }
+        curRegexResult = null;
+        // parse build run date from nodeVersion
+        if ( ( curRegexResult = nodeRunDateRegex.exec( nodeVersion ) ) !== null ) {
+            nodeRunDate = curRegexResult[1];
+        }
+        return { nodeVersion, nodeRunDate };
     }
 
     extractArtifact( output ) {
